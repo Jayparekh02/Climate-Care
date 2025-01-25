@@ -1,0 +1,76 @@
+openapi: 3.0.3
+info:
+  title: Educational Resources API - Videos
+  version: 1.0.0
+  description: API endpoint for accessing educational videos on climate change.
+
+paths:
+  /api/resources/videos:
+    get:
+      tags: 
+        - Educational Resources
+      summary: Retrieves educational videos related to climate change
+      description: Fetches a list of videos providing insights and information on various aspects of climate change.
+      parameters:
+        - in: query
+          name: topic
+          schema:
+            type: string
+          description: Optional topic to filter videos by specific subjects.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 5
+          description: Limit the number of videos returned. Defaults to 5.
+      responses:
+        '200':
+          description: A list of videos successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+              example:
+                - id: "v1"
+                  title: "The Science of Climate Change Explained"
+                  topic: "Science"
+                  url: "https://example.com/video1"
+                  description: "A comprehensive overview of the science behind climate change."
+                - id: "v2"
+                  title: "Renewable Energy: A Path to a Sustainable Future"
+                  topic: "Solutions"
+                  url: "https://example.com/video2"
+                  description: "Exploring renewable energy solutions to combat climate change."
+        '400':
+          description: Bad request. Possible reason could be an invalid query parameter.
+        '404':
+          description: No videos found matching the criteria.
+
+components:
+  schemas:
+    Video:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the video.
+        title:
+          type: string
+          description: Title of the video.
+        topic:
+          type: string
+          description: Topic of the video.
+        url:
+          type: string
+          format: uri
+          description: URL where the video can be viewed.
+        description:
+          type: string
+          description: A brief description of the video content.
+      required:
+        - id
+        - title
+        - url
+        - description

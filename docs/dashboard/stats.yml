@@ -1,0 +1,45 @@
+openapi: 3.0.0
+info:
+  title: ClimateCare Dashboard API
+  version: 1.0.0
+  description: API endpoints for the ClimateCare Dashboard, providing an overview of environmental statistics.
+
+paths:
+  /dashboard/stats:
+    get:
+      summary: Fetch Environmental Statistics
+      description: Retrieves an overview of current environmental statistics, including CO2 emissions, temperature changes, and deforestation rates.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnvironmentalStats"
+              example:
+                co2_emissions: "35.4 billion tons"
+                temperature_change: "1.2°C since 1880"
+                deforestation_rate: "10 million hectares per year"
+        "400":
+          description: Bad Request
+        "500":
+          description: Server Error
+
+components:
+  schemas:
+    EnvironmentalStats:
+      type: object
+      properties:
+        co2_emissions:
+          type: string
+          description: Total global CO2 emissions for the current year.
+        temperature_change:
+          type: string
+          description: The change in global average surface temperature relative to pre-industrial levels.
+        deforestation_rate:
+          type: string
+          description: Annual global deforestation rate.
+      required:
+        - co2_emissions
+        - temperature_change
+        - deforestation_rate

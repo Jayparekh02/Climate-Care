@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: Carbon Calculator API
+  version: 1.0.0
+  description: API for calculating personal carbon footprints and suggesting offset actions.
+paths:
+  /api/carbon_calculator/calculate:
+    post:
+      summary: Calculate Carbon Footprint
+      description: Calculates the user's carbon footprint based on provided lifestyle information.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarbonFootprintRequest"
+            example:
+              transportation: 500
+              diet: "vegetarian"
+              energy_consumption: 150
+      responses:
+        "200":
+          description: Carbon footprint calculated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarbonFootprintResponse"
+              example:
+                footprint: 2.5
+                message: Your carbon footprint is 2.5 tons of CO2 annually.
+        "400":
+          description: Bad request. Invalid input parameters.
+components:
+  schemas:
+    CarbonFootprintRequest:
+      type: object
+      properties:
+        transportation:
+          type: number
+          description: Monthly transportation emissions in kg.
+        diet:
+          type: string
+          description: Type of diet (vegetarian, vegan, etc.).
+        energy_consumption:
+          type: number
+          description: Monthly energy consumption in kWh.
+      required:
+        - transportation
+        - diet
+        - energy_consumption
+    CarbonFootprintResponse:
+      type: object
+      properties:
+        footprint:
+          type: number
+          description: Estimated annual carbon footprint in tons of CO2.
+        message:
+          type: string
+          description: A message with the carbon footprint result.

@@ -1,0 +1,90 @@
+openapi: 3.0.0
+info:
+  title: Admin User Management API
+  version: 1.0.1
+  description: API endpoints for admin operations on user management in the ClimateCare platform.
+
+paths:
+  /admin/users/{id}:
+    patch:
+      summary: Update an existing user
+      description: Allows admins to update details of an existing user account in the system.
+      operationId: updateUser
+      tags:
+        - Admin User Management
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      requestBody:
+        description: Data for updating an existing user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUser"
+            example:
+              email: "updateduser@example.com"
+              role: "educator"
+      responses:
+        "200":
+          description: User updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+              example:
+                id: "12345"
+                username: "user123"
+                email: "updateduser@example.com"
+                role: "educator"
+                status: "active"
+        "400":
+          description: Bad Request. Incorrect or missing user data.
+        "403":
+          description: Forbidden. Only admins can update users.
+        "404":
+          description: Not Found. The user does not exist.
+components:
+  schemas:
+    UpdateUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+          enum: [general, educator, organization]
+      required:
+        - email
+        - role
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        username:
+          type: string
+          example: "newuser123"
+        email:
+          type: string
+          format: email
+          example: "newuser@example.com"
+        role:
+          type: string
+          enum: [general, educator, organization]
+          example: "general"
+        status:
+          type: string
+          example: "active"
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Error message here."

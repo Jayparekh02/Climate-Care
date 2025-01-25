@@ -1,0 +1,82 @@
+openapi: 3.0.3
+info:
+  title: Educational Resources API
+  version: 1.0.0
+  description: API endpoints for accessing educational resources on climate change, including articles, videos, and infographics.
+
+paths:
+  /api/resources/articles:
+    get:
+      tags: 
+        - Educational Resources
+      summary: Retrieves articles related to climate change
+      description: Fetches a list of articles that provide insights and information on various aspects of climate change.
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Optional category to filter articles by specific topics.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Limit the number of articles returned. Defaults to 10.
+      responses:
+        '200':
+          description: A list of articles successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+              example:
+                - id: "1"
+                  title: "Understanding the Impact of Climate Change"
+                  category: "Impact"
+                  summary: "An in-depth look at how climate change is affecting our planet."
+                  author: "Jane Doe"
+                  publishDate: "2024-01-01"
+                - id: "2"
+                  title: "Simple Steps to Reduce Your Carbon Footprint"
+                  category: "Solutions"
+                  summary: "Practical advice for individuals looking to contribute to a healthier planet."
+                  author: "John Smith"
+                  publishDate: "2024-01-15"
+        '400':
+          description: Bad request. Possible reason could be an invalid query parameter.
+        '404':
+          description: No articles found matching the criteria.
+
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the article.
+        title:
+          type: string
+          description: Title of the article.
+        category:
+          type: string
+          description: Category of the article.
+        summary:
+          type: string
+          description: A brief summary of the article content.
+        author:
+          type: string
+          description: Name of the article's author.
+        publishDate:
+          type: string
+          format: date
+          description: The date the article was published.
+      required:
+        - id
+        - title
+        - summary
+        - author
+        - publishDate

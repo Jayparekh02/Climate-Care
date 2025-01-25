@@ -1,0 +1,68 @@
+openapi: 3.0.0
+info:
+  title: ClimateCare - View Discussion Threads API
+  version: 1.0.0
+  description: API endpoints for viewing discussion threads on ClimateCare platform.
+paths:
+  /discussion/threads:
+    get:
+      summary: Get all discussion threads
+      description: Allows users to retrieve all discussion threads.
+      operationId: getDiscussionThreads
+      tags:
+        - Discussion Threads
+      responses:
+        "200":
+          description: Successfully retrieved discussion threads.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DiscussionThread"
+              example:
+                - id: "12345"
+                  title: "Climate Change Effects"
+                  content: "Let's discuss the effects of climate change on biodiversity."
+                  author: "user123"
+                  createdAt: "2024-03-23T12:00:00Z"
+                - id: "67890"
+                  title: "Renewable Energy Solutions"
+                  content: "Discussion about renewable energy solutions."
+                  author: "user456"
+                  createdAt: "2024-03-24T10:00:00Z"
+        "500":
+          description: Internal Server Error. Failed to retrieve discussion threads.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: "Internal server error occurred."
+components:
+  schemas:
+    DiscussionThread:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        title:
+          type: string
+          example: "Climate Change Effects"
+        content:
+          type: string
+          example: "Let's discuss the effects of climate change on biodiversity."
+        author:
+          type: string
+          example: "user123"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-03-23T12:00:00Z"
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Error message here."

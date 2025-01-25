@@ -1,0 +1,56 @@
+openapi: 3.0.3
+
+info:
+  title: ClimateCare Events Calendar API
+  version: 1.0.0
+  description: This API allows users to list and submit environmental events, workshops, and conferences, supporting the ClimateCare platform's mission to promote awareness and action on climate change.
+
+paths:
+  /api/events:
+    post:
+      summary: Allows users to submit events
+      description: Allows users to submit details of upcoming environmental events for inclusion in the calendar.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewEvent'
+            example:
+              title: "Sustainable Living Expo"
+              category: "Expo"
+              date: "2024-06-15"
+              location: "Convention Center, Example City"
+              description: "An expo showcasing sustainable living practices and products."
+      responses:
+        '201':
+          description: Event submitted successfully.
+        '400':
+          description: Bad request. Invalid input parameters.
+
+components:
+  schemas:
+    NewEvent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the event.
+        category:
+          type: string
+          description: Category of the event.
+        date:
+          type: string
+          format: date
+          description: The date of the event.
+        location:
+          type: string
+          description: Location where the event will take place.
+        description:
+          type: string
+          description: A brief description of the event.
+      required:
+        - title
+        - date
+        - location
+        - description

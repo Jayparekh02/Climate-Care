@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: Admin User Management API
+  version: 1.0.3
+  description: API endpoints for admin operations on user management in the ClimateCare platform.
+
+paths:
+  /admin/users:
+    get:
+      summary: List all users
+      description: Allows admins to retrieve a list of all users, with optional filtering parameters.
+      operationId: listUsers
+      tags:
+        - Admin User Management
+      parameters:
+        - in: query
+          name: role
+          schema:
+            type: string
+          description: Filter users by role (e.g., general, educator, organization).
+        - in: query
+          name: status
+          schema:
+            type: string
+          description: Filter users by status (e.g., active, inactive).
+      responses:
+        "200":
+          description: A list of users retrieved successfully.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserListItem"
+              example:
+                - id: "12345"
+                  username: "user123"
+                  email: "user123@example.com"
+                  role: "general"
+                  status: "active"
+                - id: "67890"
+                  username: "user456"
+                  email: "user456@example.com"
+                  role: "educator"
+                  status: "inactive"
+        "403":
+          description: Forbidden. Only admins can list users.
+components:
+  schemas:
+    UserListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        username:
+          type: string
+          example: "user123"
+        email:
+          type: string
+          format: email
+          example: "user123@example.com"
+        role:
+          type: string
+          enum: [general, educator, organization]
+          example: "general"
+        status:
+          type: string
+          example: "active"

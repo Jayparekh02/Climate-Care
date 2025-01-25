@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: ClimateCare API
+  version: 1.0.0
+  description: API endpoints for ClimateCare web platform
+paths:
+  /api/users/register:
+    post:
+      tags:
+        - User Authentication
+      summary: User registration
+      description: |
+        Allows users to register for a new account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationRequest'
+      responses:
+        '201':
+          description: Registration successful
+        '400':
+          description: Bad request - Invalid user data provided
+      security: []
+
+components:
+  schemas:
+    RegistrationRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "user123"
+          description: Desired username for the new account
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+          description: Email address for the new account
+        password:
+          type: string
+          example: "password123"
+          description: Desired password for the new account

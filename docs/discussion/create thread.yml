@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  title: ClimateCare - Create Discussion Threads API
+  version: 1.0.0
+  description: API endpoints for creating discussion threads on ClimateCare platform.
+paths:
+  /discussion/threads:
+    post:
+      summary: Create a new discussion thread
+      description: Allows users to create a new discussion thread.
+      operationId: createDiscussionThread
+      tags:
+        - Discussion Threads
+      requestBody:
+        description: Data needed to create a new discussion thread
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewDiscussionThread"
+            example:
+              title: "Climate Change Effects"
+              content: "Let's discuss the effects of climate change on biodiversity."
+      responses:
+        "201":
+          description: Discussion thread created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiscussionThread"
+              example:
+                id: "12345"
+                title: "Climate Change Effects"
+                content: "Let's discuss the effects of climate change on biodiversity."
+                author: "user123"
+                createdAt: "2024-03-23T12:00:00Z"
+        "400":
+          description: Bad Request. Incorrect or missing discussion thread data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: "Title cannot be empty."
+        "403":
+          description: Forbidden. Only logged-in users can create discussion threads.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: "User authentication required."
+components:
+  schemas:
+    NewDiscussionThread:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Climate Change Effects"
+        content:
+          type: string
+          example: "Let's discuss the effects of climate change on biodiversity."
+      required:
+        - title
+        - content
+    DiscussionThread:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        title:
+          type: string
+          example: "Climate Change Effects"
+        content:
+          type: string
+          example: "Let's discuss the effects of climate change on biodiversity."
+        author:
+          type: string
+          example: "user123"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-03-23T12:00:00Z"
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Error message here."

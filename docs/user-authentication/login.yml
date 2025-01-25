@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: ClimateCare API
+  version: 1.0.0
+  description: API endpoints for ClimateCare web platform
+paths:
+  /api/users/profile:
+    get:
+      tags:
+        - User Authentication
+      summary: Fetch user profile details
+      description: |
+        Retrieves the profile details of the authenticated user.
+      responses:
+        '200':
+          description: User profile details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized - User not authenticated
+      security:
+        - JWTAuth: []
+ 
+components:
+  schemas:
+    UserProfile:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: "123abc"
+          description: Unique identifier for the user
+        username:
+          type: string
+          example: "user123"
+          description: User's username
+        email:
+          type: string
+          example: "user@example.com"
+          description: User's email address
+        firstName:
+          type: string
+          example: "John"
+          description: User's first name
+        lastName:
+          type: string
+          example: "Doe"
+          description: User's last name

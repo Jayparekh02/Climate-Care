@@ -1,0 +1,28 @@
+openapi: 3.0.0
+info:
+  title: Admin User Management API
+  version: 1.0.2
+  description: API endpoints for admin operations on user management in the ClimateCare platform.
+
+paths:
+  /admin/users/{id}:
+    delete:
+      summary: Delete an existing user
+      description: Allows admins to delete an existing user account from the system.
+      operationId: deleteUser
+      tags:
+        - Admin User Management
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The user ID
+      responses:
+        "204":
+          description: User deleted successfully.
+        "403":
+          description: Forbidden. Only admins can delete users.
+        "404":
+          description: Not Found. The user does not exist.

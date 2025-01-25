@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: Admin User Management API
+  version: 1.0.0
+  description: API endpoints for admin operations on user management in the ClimateCare platform.
+paths:
+  /admin/users:
+    post:
+      summary: Create a new user
+      description: Allows admins to create a new user account in the system.
+      operationId: createUser
+      tags:
+        - Admin User Management
+      requestBody:
+        description: Data needed to create a new user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUser"
+            example:
+              username: "newuser123"
+              email: "newuser@example.com"
+              role: "general"
+              password: "securePassword123!"
+      responses:
+        "201":
+          description: User created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+              example:
+                id: "12345"
+                username: "newuser123"
+                email: "newuser@example.com"
+                role: "general"
+                status: "active"
+        "400":
+          description: Bad Request. Incorrect or missing user data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: "Invalid email format."
+        "403":
+          description: Forbidden. Only admins can create users.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                message: "Insufficient permissions."
+components:
+  schemas:
+    NewUser:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "newuser123"
+        email:
+          type: string
+          format: email
+          example: "newuser@example.com"
+        role:
+          type: string
+          enum: [general, educator, organization]
+          example: "general"  # general: Regular users, educator: Teachers/Students, organization: Environmental organizations
+        password:
+          type: string
+          example: "securePassword123!"
+      required:
+        - username
+        - email
+        - role
+        - password
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "12345"
+        username:
+          type: string
+          example: "newuser123"
+        email:
+          type: string
+          format: email
+          example: "newuser@example.com"
+        role:
+          type: string
+          enum: [general, educator, organization]
+          example: "general"  # general: Regular users, educator: Teachers/Students, organization: Environmental organizations
+        status:
+          type: string
+          example: "active"
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Error message here."

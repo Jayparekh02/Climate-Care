@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: Delete Event API
+  version: 1.0.0
+  description: API endpoint for deleting a specific environmental event from the calendar.
+
+paths:
+  /api/events/{eventId}:
+    delete:
+      summary: Deletes a specific event
+      description: Allows authorized users or administrators to delete an existing event.
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the event to be deleted.
+      responses:
+        '200':
+          description: Event deleted successfully.
+        '404':
+          description: Event not found.
+        '403':
+          description: Unauthorized action. User does not have the required permissions.

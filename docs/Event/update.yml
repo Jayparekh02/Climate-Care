@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Update Event API
+  version: 1.0.0
+  description: API endpoint for updating the details of a specific environmental event.
+
+paths:
+  /api/events/{eventId}:
+    put:
+      summary: Updates a specific event
+      description: Allows authorized users or administrators to update the details of an existing event.
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+          description: Unique identifier of the event to be updated.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventDetails'
+            example:
+              title: "Sustainable Living Expo 2024"
+              category: "Expo"
+              date: "2024-06-15"
+              location: "Convention Center, Downtown"
+              description: "Explore sustainable living practices and meet leading eco-friendly brands."
+      responses:
+        '200':
+          description: Event updated successfully.
+        '400':
+          description: Bad request due to invalid input parameters.
+        '404':
+          description: Event not found.
+        '403':
+          description: Unauthorized action. User lacks permission to update the event.
+
+components:
+  schemas:
+    EventDetails:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the event.
+        category:
+          type: string
+          description: Category under which the event falls.
+        date:
+          type: string
+          format: date
+          description: The date of the event.
+        location:
+          type: string
+          description: Where the event is taking place.
+        description:
+          type: string
+          description: Brief summary of the event.
+      required:
+        - title
+        - date
+        - location
+        - description

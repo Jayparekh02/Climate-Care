@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: ClimateCare API
+  version: 1.0.0
+  description: API endpoints for ClimateCare web platform
+paths:
+  /api/actions/events:
+    get:
+      tags:
+        - Action Center
+      summary: Get environmental events and initiatives
+      description: |
+        Retrieves a list of upcoming environmental events and initiatives.
+      responses:
+        '200':
+          description: A list of environmental events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+      security: []
+
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        eventId:
+          type: string
+          example: "123abc"
+          description: Unique identifier for the event
+        eventName:
+          type: string
+          example: "Beach Cleanup"
+          description: Name of the event
+        eventDate:
+          type: string
+          format: date-time
+          example: "2024-04-15T10:00:00Z"
+          description: Date and time of the event
+        location:
+          type: string
+          example: "Beachfront Park"
+          description: Location of the event
+        description:
+          type: string
+          example: "Join us for a beach cleanup to help protect marine life!"
+          description: Description of the event

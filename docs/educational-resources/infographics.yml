@@ -1,0 +1,76 @@
+openapi: 3.0.3
+info:
+  title: Educational Resources API - Infographics
+  version: 1.0.0
+  description: API endpoint for accessing educational infographics on climate change.
+
+paths:
+  /api/resources/infographics:
+    get:
+      tags: 
+        - Educational Resources
+      summary: Retrieves educational infographics related to climate change
+      description: Fetches a list of infographics providing insights and visual information on various aspects of climate change.
+      parameters:
+        - in: query
+          name: theme
+          schema:
+            type: string
+          description: Optional theme to filter infographics by specific interests.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 5
+          description: Limit the number of infographics returned. Defaults to 5.
+      responses:
+        '200':
+          description: A list of infographics successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Infographic'
+              example:
+                - id: "i1"
+                  title: "Carbon Footprint by Industry"
+                  theme: "Emissions"
+                  imageUrl: "https://example.com/infographic1.png"
+                  description: "A visual breakdown of carbon emissions by different industries."
+                - id: "i2"
+                  title: "10 Tips for Reducing Waste"
+                  theme: "Solutions"
+                  imageUrl: "https://example.com/infographic2.png"
+                  description: "Simple steps everyone can take to reduce waste."
+        '400':
+          description: Bad request. Possible reason could be an invalid query parameter.
+        '404':
+          description: No infographics found matching the criteria.
+
+components:
+  schemas:
+    Infographic:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the infographic.
+        title:
+          type: string
+          description: Title of the infographic.
+        theme:
+          type: string
+          description: Theme of the infographic.
+        imageUrl:
+          type: string
+          format: uri
+          description: URL to the image of the infographic.
+        description:
+          type: string
+          description: A brief description of the infographic.
+      required:
+        - id
+        - title
+        - imageUrl
+        - description

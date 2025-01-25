@@ -1,0 +1,39 @@
+openapi: 3.0.0
+info:
+  title: ClimateCare API
+  version: 1.0.0
+  description: API endpoints for ClimateCare web platform
+paths:
+  /api/actions/volunteer:
+    post:
+      tags:
+        - Action Center
+      summary: Register as a volunteer for an event
+      description: |
+        Registers a user as a volunteer for a specific environmental event.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VolunteerRequest'
+      responses:
+        '200':
+          description: Volunteer registration successful
+        '400':
+          description: Bad request - Invalid eventId or userId provided
+      security: []
+
+components:
+  schemas:
+    VolunteerRequest:
+      type: object
+      properties:
+        eventId:
+          type: string
+          example: "123abc"
+          description: Unique identifier for the event
+        userId:
+          type: string
+          example: "456def"
+          description: Unique identifier for the user

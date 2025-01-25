@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  title: Carbon Calculator Suggestions API
+  version: 1.0.0
+  description: API for fetching suggestions to offset carbon emissions.
+paths:
+  /api/carbon_calculator/suggestions:
+    get:
+      summary: Get Carbon Offset Suggestions
+      description: Retrieves suggestions for offsetting carbon emissions based on the user's calculated carbon footprint.
+      parameters:
+        - in: query
+          name: footprint
+          schema:
+            type: number
+          required: true
+          description: The user's carbon footprint in tons of CO2 annually.
+      responses:
+        "200":
+          description: Suggestions retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarbonOffsetSuggestions"
+              example:
+                - suggestion: Plant trees
+                  details: Planting 15 trees can offset 1 ton of CO2 annually.
+                - suggestion: Renewable energy
+                  details: Switching to renewable energy sources can significantly reduce your carbon footprint.
+                - suggestion: Reduce air travel
+                  details: Choosing alternatives to air travel when possible can drastically lower emissions.
+        "400":
+          description: Bad request. Invalid input parameters.
+        "404":
+          description: Suggestions not found for the provided footprint.
+components:
+  schemas:
+    CarbonOffsetSuggestions:
+      type: array
+      items:
+        type: object
+        properties:
+          suggestion:
+            type: string
+            description: A brief title of the suggestion for carbon offsetting.
+          details:
+            type: string
+            description: A detailed description of how the suggestion helps in offsetting carbon emissions.

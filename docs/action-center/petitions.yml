@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: ClimateCare API
+  version: 1.0.0
+  description: API endpoints for ClimateCare web platform
+paths:
+  /api/actions/petitions:
+    post:
+      tags:
+        - Action Center
+      summary: Submit or support a petition
+      description: |
+        Submits a new petition or supports an existing one.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PetitionRequest'
+      responses:
+        '200':
+          description: Petition submission or support successful
+        '400':
+          description: Bad request - Invalid petitionId or userId provided
+      security: []
+
+components:
+  schemas:
+    PetitionRequest:
+      type: object
+      properties:
+        petitionId:
+          type: string
+          example: "789xyz"
+          description: Unique identifier for the petition (optional for supporting)
+        userId:
+          type: string
+          example: "456def"
+          description: Unique identifier for the user
+        petitionText:
+          type: string
+          example: "Ban single-use plastic bags"
+          description: Text of the petition
+        support:
+          type: boolean
+          example: true
+          description: Indicates whether the user supports the petition
